@@ -6,7 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.shalaga44.chatapp.ui.login.loginActivity
+import com.shalaga44.chatapp.LoginActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        val loginIntent = Intent (this, loginActivity::class.java)
+        val loginIntent = Intent (this, LoginActivity::class.java)
         startActivity(loginIntent)
 
     }
