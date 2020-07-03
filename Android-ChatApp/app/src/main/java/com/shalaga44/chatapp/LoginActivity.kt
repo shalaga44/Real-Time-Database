@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initViews() {
         findViewById<Button>(R.id.btn_signup).setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, SignupActivity::class.java))
         }
     }
 }
