@@ -2,8 +2,12 @@ package com.shalaga44.chatapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Patterns
+import androidx.core.widget.addTextChangedListener
 import com.shalaga44.chatapp.databinding.ActivitySignupBinding
+import java.util.*
 
 class SignupActivity : AppCompatActivity() {
 
@@ -14,7 +18,7 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
         attachViewsOnClickListener()
-
+        attachTextsChangedListener()
 
     }
 
@@ -87,5 +91,41 @@ class SignupActivity : AppCompatActivity() {
         binding.confirm.setOnClickListener {
             validateInput()
         }
+    }
+
+    private fun attachTextsChangedListener() {
+        var emailWritten = false
+        binding.usernameInput.editText?.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                validateUserName()
+            }
+        })
+        binding.emailInput.editText?.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                if(emailWritten) {
+                    validateEmail()
+                }
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+        binding.passwordInput.editText?.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                emailWritten = true
+                validateEmail()
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                validatePassword()
+            }
+        })
     }
 }
