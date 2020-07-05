@@ -5,36 +5,34 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
-import androidx.core.widget.addTextChangedListener
 import com.shalaga44.chatapp.databinding.ActivitySignupBinding
-import java.util.*
 
 class SignupActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySignupBinding
+    private lateinit var _binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySignupBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        _binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(_binding.root)
         attachViewsOnClickListener()
         attachTextsChangedListener()
 
     }
 
     private fun validatePassword(): Boolean {
-        val passwordInput = binding.passwordInput.editText?.text?.trim()
+        val passwordInput = _binding.passwordInput.editText?.text?.trim()
         return when {
             passwordInput.isNullOrEmpty() -> {
-                binding.passwordInput.error = "Field can't be empty"
+                _binding.passwordInput.error = "Field can't be empty"
                 false
             }
             passwordInput.length < 7 -> {
-                binding.passwordInput.error = "Password is weak"
+                _binding.passwordInput.error = "Password is weak"
                 false
             }
             else -> {
-                binding.passwordInput.error = ""
+                _binding.passwordInput.error = ""
                 true
             }
         }
@@ -52,15 +50,15 @@ class SignupActivity : AppCompatActivity() {
 
 
     private fun validateEmail(): Boolean {
-        val emailInput = binding.emailInput.editText?.text?.trim()
+        val emailInput = _binding.emailInput.editText?.text?.trim()
         if (emailInput.isNullOrEmpty()) {
-            binding.emailInput.error = "Field can't be empty"
+            _binding.emailInput.error = "Field can't be empty"
             return false
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            binding.emailInput.error = "Not valid email"
+            _binding.emailInput.error = "Not valid email"
             return false
         } else {
-            binding.emailInput.error = ""
+            _binding.emailInput.error = ""
             return true
         }
 
@@ -69,18 +67,18 @@ class SignupActivity : AppCompatActivity() {
 
 
     private fun validateUserName(): Boolean {
-        val usernamelInput = binding.usernameInput.editText?.text?.trim()
+        val usernamelInput = _binding.usernameInput.editText?.text?.trim()
         return when {
             usernamelInput.isNullOrEmpty() -> {
-                binding.usernameInput.error = "Field can't be empty"
+                _binding.usernameInput.error = "Field can't be empty"
                 false
             }
             usernamelInput.length > 15 -> {
-                binding.usernameInput.error = "username too long"
+                _binding.usernameInput.error = "username too long"
                 false
             }
             else -> {
-                binding.usernameInput.error = ""
+                _binding.usernameInput.error = ""
                 true
             }
         }
@@ -88,14 +86,14 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun attachViewsOnClickListener() {
-        binding.confirm.setOnClickListener {
+        _binding.confirm.setOnClickListener {
             validateInput()
         }
     }
 
     private fun attachTextsChangedListener() {
         var emailWritten = false
-        binding.usernameInput.editText?.addTextChangedListener(object:TextWatcher{
+        _binding.usernameInput.editText?.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
             }
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -104,7 +102,7 @@ class SignupActivity : AppCompatActivity() {
                 validateUserName()
             }
         })
-        binding.emailInput.editText?.addTextChangedListener(object:TextWatcher{
+        _binding.emailInput.editText?.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 if(emailWritten) {
                     validateEmail()
@@ -115,7 +113,7 @@ class SignupActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
-        binding.passwordInput.editText?.addTextChangedListener(object:TextWatcher{
+        _binding.passwordInput.editText?.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
 
             }
