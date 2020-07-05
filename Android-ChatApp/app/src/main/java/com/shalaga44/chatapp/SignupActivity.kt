@@ -10,11 +10,13 @@ import com.shalaga44.chatapp.databinding.ActivitySignupBinding
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var _binding: ActivitySignupBinding
+    private var passwordWritten: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(_binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         attachViewsOnClickListener()
         attachTextsChangedListener()
 
@@ -88,42 +90,52 @@ class SignupActivity : AppCompatActivity() {
     private fun attachViewsOnClickListener() {
         _binding.confirm.setOnClickListener {
             validateInput()
+            passwordWritten = true
         }
     }
 
     private fun attachTextsChangedListener() {
         var emailWritten = false
-        _binding.usernameInput.editText?.addTextChangedListener(object:TextWatcher{
+        _binding.usernameInput.editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
+
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 validateUserName()
             }
         })
-        _binding.emailInput.editText?.addTextChangedListener(object:TextWatcher{
+        _binding.emailInput.editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if(emailWritten) {
+                if (emailWritten) {
                     validateEmail()
                 }
             }
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
+
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
-        _binding.passwordInput.editText?.addTextChangedListener(object:TextWatcher{
+        _binding.passwordInput.editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
             }
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 emailWritten = true
                 validateEmail()
             }
+
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                validatePassword()
+                if (passwordWritten) {
+                    validatePassword()
+                }
             }
         })
     }
+
 }
