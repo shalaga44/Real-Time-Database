@@ -3,6 +3,7 @@ package com.shalaga44.mvvm
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -41,8 +42,12 @@ class MainActivity : AppCompatActivity() {
            Log.d(TAG, it.toString())
 //            usersList = it
 //            _binding.userRecyclerview.adapter?.notifyDataSetChanged()
-            _binding.userRecyclerview.adapter = RecyclerviewAdapter(it)
+            _binding.userRecyclerview.adapter = RecyclerviewAdapter(it, {selectedItem:User -> listItemClickListener(selectedItem)})
 
         })
+    }
+    private fun listItemClickListener(user: User){
+        Toast.makeText(this, "selected user is ${user.name}", Toast.LENGTH_SHORT).show()
+
     }
 }
