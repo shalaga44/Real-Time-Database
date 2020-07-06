@@ -37,3 +37,7 @@ INFO: scrcpy 1.12.1 <https://github.com/Genymobile/scrcpy>
 INFO: Initial texture: 720x1480
 INFO: New texture: 1480x720
 INFO: New texture: 720x1480
+INFO: scrcpy 1.12.1 <https://github.com/Genymobile/scrcpy>
+[100%] /data/local/tmp/scrcpy-server.jar
+/usr/share/scrcpy/scrcpy-server: 1 file pushed. 0.4 MB/s (24773 bytes in 0.063s)
+INFO: Initial texture: 720x1480
