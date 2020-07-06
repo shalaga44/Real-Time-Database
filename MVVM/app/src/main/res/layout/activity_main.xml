@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.shalaga44.mvvm.MainActivityViewModel" />
+            type="com.shalaga44.mvvm.UserViewModel" />
     </data>
 
 <LinearLayout
@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@={viewModel.saveOrUpdateButtonText}"
+            android:onClick="@{()-> viewModel.saveOrUpdate()}"
             android:textSize="18sp"
             android:textStyle="bold"/>
 
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@={viewModel.clearOrDeleteButtonText}"
+            android:onClick="@{()-> viewModel.clearOrDelete()}"
             android:textSize="18sp"
             android:textStyle="bold"/>
     </LinearLayout>
