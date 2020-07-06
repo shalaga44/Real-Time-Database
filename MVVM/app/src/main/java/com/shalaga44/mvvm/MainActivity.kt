@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG  = "BlaBlaBla"
     private lateinit var _binding: ActivityMainBinding
     private lateinit var userViewModel: UserViewModel
-    private var usersList : List<User> = ArrayList()
+    private lateinit var adapter: RecyclerviewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -38,16 +38,16 @@ class MainActivity : AppCompatActivity() {
     }
     private fun initRecyclerView (){
         _binding.userRecyclerview.layoutManager = LinearLayoutManager(this)
+        adapter = RecyclerviewAdapter( {selectedItem:User -> listItemClickListener(selectedItem)})
+        _binding.userRecyclerview.adapter = adapter
         displayUsersList()
 
     }
     private fun displayUsersList(){
         userViewModel.users.observe(this, Observer {
            Log.d(TAG, it.toString())
-//            usersList = it
-//            _binding.userRecyclerview.adapter?.notifyDataSetChanged()
-            _binding.userRecyclerview.adapter = RecyclerviewAdapter(it, {selectedItem:User -> listItemClickListener(selectedItem)})
-
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
     }
     private fun listItemClickListener(user: User){

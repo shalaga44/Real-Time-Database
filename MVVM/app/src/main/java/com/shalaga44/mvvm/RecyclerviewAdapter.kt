@@ -8,13 +8,16 @@ import com.shalaga44.mvvm.databinding.ListItemsBinding
 import com.shalaga44.mvvm.db.User
 
 class RecyclerviewAdapter(
-    val usersList: List<User>,
+
     val clickListener: (User) -> Unit
-): RecyclerView.Adapter<MyViewHolder>() {
+) : RecyclerView.Adapter<MyViewHolder>() {
+
+    private var usersList: ArrayList<User> = ArrayList<User>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
         val binding: ListItemsBinding =
-            DataBindingUtil.inflate(layoutInflater,R.layout.list_items,parent,false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.list_items, parent, false)
         return MyViewHolder(binding)
     }
 
@@ -23,13 +26,18 @@ class RecyclerviewAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(usersList[position],clickListener)
+        holder.bind(usersList[position], clickListener)
     }
 
-}
-class MyViewHolder(val binding: ListItemsBinding): RecyclerView.ViewHolder(binding.root){
+    fun setList(users: List<User>) {
 
-    fun bind(user: User,clickListener: (User) -> Unit){
+        usersList = users as ArrayList<User>
+    }
+}
+
+class MyViewHolder(val binding: ListItemsBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    fun bind(user: User, clickListener: (User) -> Unit) {
         binding.nameTextView.text = user.name
         binding.emailTextView.text = user.email
         binding.listItemLayout.setOnClickListener {
