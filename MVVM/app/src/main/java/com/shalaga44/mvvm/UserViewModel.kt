@@ -1,5 +1,6 @@
 package com.shalaga44.mvvm
 
+import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shalaga44.mvvm.db.UserRepository
@@ -47,18 +48,33 @@ class UserViewModel(val repository: UserRepository) : ViewModel(), Observable {
     }
 
     fun saveOrUpdate() {
-        if (isUpdateOrDelete) {
-            userToUpdateOrDelete.name = inputName.value!!
-            userToUpdateOrDelete.email = inputEmail.value!!
+        if (inputName.value == null){
+            statusMessage.value = Event("Please enter user name")
 
-            update(userToUpdateOrDelete)
-        } else {
-            val name: String = inputName.value!!
-            val email: String = inputEmail.value!!
-            insert(User(0, name, email))
-            inputName.value = null
-            inputEmail.value = null
+        }else if (inputEmail.value == null){
+            statusMessage.value = Event("Please enter user  email")
+
+        }else if ( !Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()){
+            statusMessage.value = Event("Please enter a valid user  email")
+
+        }else {
+            if (isUpdateOrDelete) {
+                userToUpdateOrDelete.name = inputName.value!!
+                userToUpdateOrDelete.email = inputEmail.value!!
+
+                update(userToUpdateOrDelete)
+            } else {
+                val name: String = inputName.value!!
+                val email: String = inputEmail.value!!
+                insert(User(0, name, email))
+                inputName.value = null
+                inputEmail.value = null
+            }
+
         }
+
+
+
 
     }
 
