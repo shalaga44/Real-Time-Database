@@ -8,6 +8,8 @@ android {
     compileSdkVersion 29
     buildFeatures{
         viewBinding = true
+        dataBinding true
+
     }
     defaultConfig {
         applicationId "com.shalaga44.mvvm"
