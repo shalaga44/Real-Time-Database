@@ -30,7 +30,11 @@ class MainActivity : AppCompatActivity() {
         _binding.viewModel = userViewModel
         _binding.lifecycleOwner = this
        initRecyclerView()
-
+        userViewModel.message.observe(this, Observer {
+            it.getContentIfNotHandled().let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
     private fun initRecyclerView (){
         _binding.userRecyclerview.layoutManager = LinearLayoutManager(this)

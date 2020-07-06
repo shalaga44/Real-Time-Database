@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.shalaga44.mvvm.db.UserRepository
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.shalaga44.mvvm.db.User
 import kotlinx.coroutines.Job
@@ -34,6 +35,11 @@ class UserViewModel(val repository: UserRepository) : ViewModel(), Observable {
 
     @Bindable
     val clearOrDeleteButtonText = MutableLiveData<String>()
+
+    private val statusMessage = MutableLiveData<Event<String>>()
+
+    val message: LiveData<Event<String>>
+        get()  = statusMessage
 
     init {
         saveOrUpdateButtonText.value = "Save"
@@ -75,6 +81,7 @@ class UserViewModel(val repository: UserRepository) : ViewModel(), Observable {
 
     fun insert(user: User): Job = viewModelScope.launch {
         repository.insert(user)
+        statusMessage.value = Event("User inserted Successfully")
     }
 
     fun update(user: User): Job = viewModelScope.launch {
@@ -84,6 +91,8 @@ class UserViewModel(val repository: UserRepository) : ViewModel(), Observable {
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = Event("User Updated Successfully")
+
     }
 
     fun delete(user: User): Job = viewModelScope.launch {
@@ -93,10 +102,14 @@ class UserViewModel(val repository: UserRepository) : ViewModel(), Observable {
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
         clearOrDeleteButtonText.value = "Clear All"
+        statusMessage.value = Event("User deleted Successfully")
+
     }
 
     fun clearAll(): Job = viewModelScope.launch {
         repository.deleteALL()
+        statusMessage.value = Event("All Users deleted Successfully")
+
     }
 
 }
