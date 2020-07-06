@@ -19,5 +19,5 @@ interface UserDAO {
     suspend fun deleteAllUsers()
 
     @Query("SELECT * FROM User_data_table")
-    fun getAllUsers(): LiveData<User>
+    fun getAllUsers(): LiveData<List<User>>
 }

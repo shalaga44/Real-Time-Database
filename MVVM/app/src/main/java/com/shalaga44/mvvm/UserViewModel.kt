@@ -4,12 +4,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shalaga44.mvvm.db.UserRepository
 import androidx.databinding.Bindable
+import androidx.databinding.Observable
 import androidx.lifecycle.viewModelScope
 import com.shalaga44.mvvm.db.User
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class UserViewModel(val repository: UserRepository) : ViewModel() {
+class UserViewModel(val repository: UserRepository) : ViewModel() , Observable{
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
+    }
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
+    }
+
     val users = repository.users
 
     @Bindable
