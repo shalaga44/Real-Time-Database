@@ -48,6 +48,6 @@ class MainActivity : AppCompatActivity() {
     }
     private fun listItemClickListener(user: User){
         Toast.makeText(this, "selected user is ${user.name}", Toast.LENGTH_SHORT).show()
-
+        userViewModel.initUpdateOrDelete(user)
     }
 }

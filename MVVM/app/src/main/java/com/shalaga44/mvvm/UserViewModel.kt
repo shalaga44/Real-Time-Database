@@ -10,7 +10,7 @@ import com.shalaga44.mvvm.db.User
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class UserViewModel(val repository: UserRepository) : ViewModel() , Observable{
+class UserViewModel(val repository: UserRepository) : ViewModel(), Observable {
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
 
     }
@@ -20,6 +20,8 @@ class UserViewModel(val repository: UserRepository) : ViewModel() , Observable{
     }
 
     val users = repository.users
+    var isUpdateOrDelete = false
+    private lateinit var userToUpdateOrDelete: User
 
     @Bindable
     val inputName = MutableLiveData<String>()
@@ -39,17 +41,36 @@ class UserViewModel(val repository: UserRepository) : ViewModel() , Observable{
     }
 
     fun saveOrUpdate() {
-        val name: String = inputName.value!!
-        val email: String = inputEmail.value!!
-        insert(User(0, name, email))
-        inputName.value = null
-        inputEmail.value = null
+        if (isUpdateOrDelete) {
+            userToUpdateOrDelete.name = inputName.value!!
+            userToUpdateOrDelete.email = inputEmail.value!!
+
+            update(userToUpdateOrDelete)
+        } else {
+            val name: String = inputName.value!!
+            val email: String = inputEmail.value!!
+            insert(User(0, name, email))
+            inputName.value = null
+            inputEmail.value = null
+        }
 
     }
 
     fun clearOrDelete() {
-        clearAll()
+        if (isUpdateOrDelete) {
+            delete(userToUpdateOrDelete)
+        } else {
+            clearAll()
+        }
+    }
 
+    fun initUpdateOrDelete(user: User) {
+        userToUpdateOrDelete=user
+        inputName.value = user.name
+        inputEmail.value = user.email
+        isUpdateOrDelete = true
+        saveOrUpdateButtonText.value = "Update"
+        clearOrDeleteButtonText.value = "Delete"
     }
 
     fun insert(user: User): Job = viewModelScope.launch {
@@ -58,10 +79,20 @@ class UserViewModel(val repository: UserRepository) : ViewModel() , Observable{
 
     fun update(user: User): Job = viewModelScope.launch {
         repository.update(user)
+        inputName.value = null
+        inputEmail.value = null
+        isUpdateOrDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearOrDeleteButtonText.value = "Clear All"
     }
 
-    fun dalete(user: User): Job = viewModelScope.launch {
+    fun delete(user: User): Job = viewModelScope.launch {
         repository.delete(user)
+        inputName.value = null
+        inputEmail.value = null
+        isUpdateOrDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearOrDeleteButtonText.value = "Clear All"
     }
 
     fun clearAll(): Job = viewModelScope.launch {

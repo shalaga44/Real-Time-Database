@@ -7,7 +7,7 @@ class UserRepository(val dao: UserDAO) {
         dao.insertUser(user)
     }
     suspend fun update(user: User){
-        dao.deleteUser(user)
+        dao.updateUser(user)
     }
     suspend fun delete(user: User){
         dao.deleteUser(user)
