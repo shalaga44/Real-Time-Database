@@ -3,3 +3,4 @@
 /MongoDB-Server
 README.md
 .gitignore.master
+nohup.out
